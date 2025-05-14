@@ -5,33 +5,46 @@
 }
 
 body {
+  font-family: sans-serif;
+  background-color: #f5f5f5;
   width: 100%;
-  max-width: 800px;
   height: 100vh;
-  margin: 0 auto;
-
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+.app {
+  width: 100%;
+  max-width: 600px;
+  margin: 20px;
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
 h1 {
   text-align: center;
+  margin-bottom: 24px;
+  font-size: 24px;
 }
 
 .search-bar {
   display: flex;
-  margin-block: 40px;
+  justify-content: center;
   gap: 10px;
+  margin-bottom: 30px;
 }
 
 .search-bar input {
+  flex: 1 1 350px;
   padding: 10px 16px;
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 8px;
-  width: 300px;
   transition: border-color 0.2s ease;
+  min-width: 0;
 }
 
 .search-bar input:focus {
@@ -41,15 +54,91 @@ h1 {
 
 .search-bar button {
   padding: 10px 16px;
-  font-size: 18px;
+  font-size: 16px;
   border: none;
   background-color: #61dafb;
   color: white;
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  flex-shrink: 0;
 }
 
 .search-bar button:hover {
   background-color: #21a1f1;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #ddd;
+  flex-wrap: wrap;
+}
+
+li:last-child {
+  border-bottom: none;
+}
+
+li input[type="checkbox"] {
+  transform: scale(1.2);
+}
+
+li span {
+  flex: 1 1 100px;
+  margin: 0 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+li button {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  flex-shrink: 0;
+}
+
+li button:hover {
+  background: #c0392b;
+}
+
+/* 🔽 Адаптация под маленькие экраны */
+@media (max-width: 480px) {
+  .app {
+    margin: 0;
+  }
+  .search-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-bar input {
+    flex: 1 1;
+  }
+
+  .search-bar button {
+    width: 100%;
+  }
+
+  li span {
+    white-space: normal;
+    overflow-wrap: anywhere;
+    width: 100%;
+  }
+
+  li button {
+    align-self: flex-end;
+  }
 }

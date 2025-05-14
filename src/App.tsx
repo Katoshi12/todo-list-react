@@ -1,6 +1,6 @@
-import {type FC, useState} from "react";
-import SearchBar from "./components/SearchBar.tsx";
-import TodoList from "./components/TodoList.tsx";
+import {useEffect, useState} from "react";
+import SearchBar from "./components/SearchBar";
+import TodoList from "./components/TodoList";
 
 type Todo = {
   id: number;
@@ -8,8 +8,21 @@ type Todo = {
   completed: boolean;
 };
 
-const App: FC = () => {
-  const [todos, setTodos] = useState<Todo[]>([])
+const App = () => {
+  const [todos, setTodos] = useState<Todo[]>(() => {
+    const saved = localStorage.getItem("todos");
+    try {
+      return saved ? (JSON.parse(saved) as Todo[]) : [];
+    } catch (e) {
+      console.error("Ошибка парсинга localStorage:", e);
+      return [];
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
+
 
   const handleAdd = (text: string) => {
     const newTodo: Todo = {
@@ -20,22 +33,23 @@ const App: FC = () => {
     setTodos((prev) => [...prev, newTodo]);
   };
 
+  const handleToggle = (id: number) => {
+    setTodos((prev) =>
+      prev.map((todo) =>
+        todo.id === id ? {...todo, completed: !todo.completed} : todo
+      )
+    );
+  };
+
+  const handleDelete = (id: number) => {
+    setTodos((prev) => prev.filter((todo) => todo.id !== id));
+  };
 
   return (
     <div className="app">
       <h1>TODO LIST</h1>
       <SearchBar onAdd={handleAdd}/>
-      <TodoList
-        todos={todos}
-        onToggle={(id) =>
-          setTodos((prev) =>
-            prev.map((todo) =>
-              todo.id === id ? {...todo, completed: !todo.completed} : todo
-            )
-          )
-        }
-        onDelete={(id) => setTodos((prev) => prev.filter((todo) => todo.id !== id))}
-      />
+      <TodoList todos={todos} onToggle={handleToggle} onDelete={handleDelete}/>
     </div>
   );
 };
