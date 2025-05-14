@@ -4,7 +4,7 @@ type Props = {
   onAdd: (value: string) => void;
 };
 const SearchBar: FC<Props> = ({onAdd}) => {
-  const [text, setText] = useState('')
+  const [text, setText] = useState<string>('')
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
